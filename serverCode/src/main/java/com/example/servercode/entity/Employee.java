@@ -1,6 +1,8 @@
 package com.example.servercode.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -34,9 +36,9 @@ public class Employee implements Serializable {
 
     private Integer status;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     @TableField(fill = FieldFill.INSERT)
     private Long createUser;
