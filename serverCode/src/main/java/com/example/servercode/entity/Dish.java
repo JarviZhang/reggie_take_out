@@ -1,45 +1,52 @@
 package com.example.servercode.entity;
 
+import java.math.BigDecimal;
+
 import com.baomidou.mybatisplus.annotation.FieldFill;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
 import lombok.Data;
 
-/*
-* 员工实体类
-* */
-
-//Lombok 注解
+/**
+ * <p>
+ * 菜品管理
+ * </p>
+ *
+ * @author anyi
+ * @since 2022-05-24
+ */
 @Data
-public class Employee implements Serializable {
+public class Dish implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     private Long id;
 
     private String name;
 
-    private String username;
+    private Long categoryId;
 
-    private String password;
+    private BigDecimal price;
 
-    private String phone;
+    private String code;
 
-    private String sex;
-    //身份证号码
-    private String idNumber;
+    private String image;
+
+    private String description;
 
     private Integer status;
 
-    @TableField(fill = FieldFill.INSERT)//插入时候填充
+    private Integer sort;
+
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)//插入更新时候填充
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     @TableField(fill = FieldFill.INSERT)
@@ -47,6 +54,8 @@ public class Employee implements Serializable {
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
+
+    private Integer isDeleted;
 
 
 }
