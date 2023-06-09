@@ -1,7 +1,5 @@
 package com.example.servercode.entity;
 
-import java.math.BigDecimal;
-
 import com.baomidou.mybatisplus.annotation.FieldFill;
 
 import java.time.LocalDateTime;
@@ -13,37 +11,25 @@ import lombok.Data;
 
 /**
  * <p>
- * 菜品管理
+ * 菜品口味关系表
  * </p>
  *
- * @author anyi
- * @since 2022-05-24
  */
 @Data
-public class Dish implements Serializable {
+public class DishFlavor implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
 
+    private Long dishId;
+
     private String name;
 
-    private Long categoryId;
-
-    private BigDecimal price;
-
-    private String code;
-
-    private String image;
-
-    private String description;
-
-    private Integer status;
-
+    private String value;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
