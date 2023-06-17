@@ -7,8 +7,8 @@ spring:
   datasource:
 #    durid:   省略,否则报错
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/reggie?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
-    username: root
+    url: jdbc:mysql://101.43.155.248:3306/reggie?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
+    username: user1
     password: 200715
 mybatis-plus:
   configuration:

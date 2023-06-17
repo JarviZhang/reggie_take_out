@@ -10,6 +10,7 @@ import com.example.servercode.service.CategoryService;
 import com.example.servercode.service.DishFlavorService;
 import com.example.servercode.service.DishService;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -87,5 +88,19 @@ public class DishController {
     public R<String> update(@RequestBody DishDto dishDto){
         dishService.updateWithFlavor(dishDto);
         return R.success("菜品更新成功");
+    }
+
+    /*
+    * 根据条件查询对应的菜品数据
+    * */
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish){
+        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
+        //查询状态为1,即起售状态
+        queryWrapper.eq(Dish::getStatus,1);
+        queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+        List<Dish> list = dishService.list(queryWrapper);
+        return R.success(list);
     }
 }

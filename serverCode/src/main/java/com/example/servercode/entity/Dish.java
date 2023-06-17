@@ -40,6 +40,7 @@ public class Dish implements Serializable {
 
     private Integer status;
 
+    private Integer sort;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

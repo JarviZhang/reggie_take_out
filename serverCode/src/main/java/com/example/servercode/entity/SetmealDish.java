@@ -3,42 +3,40 @@ package com.example.servercode.entity;
 import java.math.BigDecimal;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**
  * <p>
- * 套餐
+ * 套餐菜品关系
  * </p>
- *
- * @author anyi
- * @since 2022-05-24
  */
 @Data
-public class Setmeal implements Serializable {
+public class SetmealDish implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     private Long id;
 
-    private Long categoryId;
+    private Long setmealId;
+
+    private String dishId;
 
     private String name;
 
     private BigDecimal price;
 
-    private Integer status;
+    private Integer copies;
 
-    private Integer code;
-
-    private String description;
-
-    private String image;
+    private Integer sort;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
