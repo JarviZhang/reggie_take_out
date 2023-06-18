@@ -6,6 +6,7 @@ import com.example.servercode.common.R;
 import com.example.servercode.dto.DishDto;
 import com.example.servercode.entity.Category;
 import com.example.servercode.entity.Dish;
+import com.example.servercode.entity.DishFlavor;
 import com.example.servercode.service.CategoryService;
 import com.example.servercode.service.DishFlavorService;
 import com.example.servercode.service.DishService;
@@ -92,15 +93,36 @@ public class DishController {
 
     /*
     * 根据条件查询对应的菜品数据
+    * return DishDto的list
+    * DishDto中有dish,dish对应的category的name,dish对应的口味dishFlavor
     * */
     @GetMapping("/list")
-    public R<List<Dish>> list(Dish dish){
+    public R<List<DishDto>> list(Dish dish){
+        //查询dish
         LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
         //查询状态为1,即起售状态
         queryWrapper.eq(Dish::getStatus,1);
         queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
         List<Dish> list = dishService.list(queryWrapper);
-        return R.success(list);
+        List<DishDto> dishDtoList = list.stream().map((item) -> {
+            DishDto dishDto = new DishDto();
+            BeanUtils.copyProperties(item,dishDto);
+            Long categoryId = item.getCategoryId();
+            Category category = categoryService.getById(categoryId);
+            if (category != null){
+                String categoryName = category.getName();
+                dishDto.setCategoryName(categoryName);
+            }
+            //查询dish对应的口味
+            //当前菜品的id
+            Long dishId = item.getId();
+            LambdaQueryWrapper<DishFlavor> dishFlavorQueryWrapper = new LambdaQueryWrapper<>();
+            dishFlavorQueryWrapper.eq(DishFlavor::getDishId,dishId);
+            List<DishFlavor> dishFlavorList = dishFlavorService.list(dishFlavorQueryWrapper);
+            dishDto.setFlavors(dishFlavorList);
+            return dishDto;
+        }).collect(Collectors.toList());
+        return R.success(dishDtoList);
     }
 }

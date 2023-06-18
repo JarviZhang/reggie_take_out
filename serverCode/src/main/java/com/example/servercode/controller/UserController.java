@@ -1,7 +1,9 @@
 package com.example.servercode.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.example.servercode.common.BaseContext;
 import com.example.servercode.common.R;
+import com.example.servercode.entity.ShoppingCart;
 import com.example.servercode.entity.User;
 import com.example.servercode.service.UserService;
 import com.example.servercode.utils.SMSUtils;
@@ -28,7 +30,9 @@ public class UserController {
     public R<String> code(String phone, HttpSession session){
         if (StringUtils.isNotEmpty(phone)){
             //生成随机的4位验证码
-            String code = ValidateCodeUtils.generateValidateCode(4).toString();
+            //String code = ValidateCodeUtils.generateValidateCode(4).toString();
+            //为方便测试,code用统一值
+            String code = "1111";
             log.info("code:{}",code);
             //调用阿里云提供的短信服务api完成发送短信
             //SMSUtils.sendMessage("瑞吉外卖","",phone,code);
@@ -68,4 +72,6 @@ public class UserController {
         }
         return R.error("登陆失败");
     }
+
+
 }

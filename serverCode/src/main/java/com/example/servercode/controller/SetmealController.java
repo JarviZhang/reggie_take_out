@@ -3,8 +3,11 @@ package com.example.servercode.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.servercode.common.R;
+import com.example.servercode.dto.DishDto;
 import com.example.servercode.dto.SetmealDto;
 import com.example.servercode.entity.Category;
+import com.example.servercode.entity.Dish;
+import com.example.servercode.entity.DishFlavor;
 import com.example.servercode.entity.Setmeal;
 import com.example.servercode.service.CategoryService;
 import com.example.servercode.service.SetmealDishService;
@@ -78,5 +81,18 @@ public class SetmealController {
         log.info("ids:{}",ids);
         setmealService.removeWithDish(ids);
         return R.success("删除套餐成功");
+    }
+
+    /*
+    * 获取套餐
+    * */
+    @GetMapping("/list")
+    public R<List<Setmeal>> list(Setmeal setmeal){
+        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(setmeal.getCategoryId() != null,Setmeal::getCategoryId,setmeal.getCategoryId());
+        queryWrapper.eq(Setmeal::getStatus,1);
+        queryWrapper.orderByDesc(Setmeal::getUpdateTime);
+        List<Setmeal> list = setmealService.list(queryWrapper);
+        return R.success(list);
     }
 }
