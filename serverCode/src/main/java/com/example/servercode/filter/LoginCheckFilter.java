@@ -34,10 +34,12 @@ public class LoginCheckFilter implements Filter {
         log.info("拦截到请求:{}",requestURI);
         //定义不需要处理的请求路径
         String[] urls = new String[]{
-                "/employee/login",
-                "/employee/logout",
+                "/employee/login",//管理端登陆
+                "/employee/logout",//管理端登出
                 "/backend/**",
-                "/front/**"
+                "/front/**",
+                "/user/code",//移动端获取验证码
+                "/user/login"//移动端登陆
         };
         //判断本次请求是否需要处理
         boolean check = check(urls,requestURI);
@@ -47,12 +49,21 @@ public class LoginCheckFilter implements Filter {
             filterChain.doFilter(request,response);
             return;
         }
-        //判断登陆状态,如果已经登陆则直接放行
+        //判断服务端登陆状态,如果已经登陆则直接放行
         if(request.getSession().getAttribute("employee") != null){
             log.info("用户已登陆，用户的id为:{}",request.getSession().getAttribute("employee"));
             //保存employee id到当前线程的ThreadLocal中
             Long empId = (Long) request.getSession().getAttribute("employee");
             BaseContext.setCurrentId(empId);
+            filterChain.doFilter(request,response);
+            return;
+        }
+        //判断客户端登陆状态,如果已经登陆则直接放行
+        if(request.getSession().getAttribute("user") != null){
+            log.info("用户已登陆，用户的id为:{}",request.getSession().getAttribute("user"));
+            //保存employee id到当前线程的ThreadLocal中
+            Long userId = (Long) request.getSession().getAttribute("user");
+            BaseContext.setCurrentId(userId);
             filterChain.doFilter(request,response);
             return;
         }
